@@ -1,0 +1,42 @@
+from pathlib import Path
+import os
+import shutil
+Project_verison = "0.0.0"
+Project_name = ""
+def after_update_cleanup(Project_name):
+    try:
+        updater_path =  Path(__file__).resolve()
+        updater_folder = updater_path.parent
+        Project_main = updater_folder.parent
+    except PermissionError:
+        print("Insufficient permissions in main folder to install updates")
+        return False
+    except Exception as e:
+        print(f"failed to index file path due to: {e}")
+        return False
+    try:
+        shutil_zip_path = Path(os.path.join(Project_main.parent, f"{Project_name}_update_file.zip"))
+        shutil_backup_path = Path(os.path.join(Project_main.parent,f".{Project_name}_backup_for_update"))
+        shutil_zip_path.unlink(missing_ok=True)
+        if Path(Project_main.parent/ f"{Project_name}_update").exists():
+            shutil.rmtree(Path(Project_main.parent/ f"{Project_name}_update"))
+        if shutil_backup_path.exists():
+            shutil.rmtree(shutil_backup_path)
+        return "cleaned up"
+    except Exception as e:
+        return f"could not clean up due to {e}."
+def startup_check(Project_name):
+    try:
+        updater_path =  Path(__file__).resolve()
+        updater_folder = updater_path.parent
+        Project_main = updater_folder.parent
+    except PermissionError:
+        print("Insufficient permissions in main folder to install updates")
+        return False
+    if os.path.exists(Project_main.parent/f"{Project_name}_update"):
+        after_update_cleanup()
+        print(f"""You {Project_name} has been updated to the latest version {Project_verison}.
+And backups have been cleared.""")
+        return  True
+    else:
+        return  False
