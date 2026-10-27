@@ -270,4 +270,3 @@ def update_now_overide(project_name, GitHub_API, GitHub_download_API,restart_com
                     sys.stdout.write("\r[█████████████████████████░░░░░]  85.7%")
                     sys.stdout.flush()
                     installer(GitHub_API=GitHub_API, project_name=project_name, restart_command=restart_command)
-update_now("1.7.0", "Pydater", "https://api.github.com/repos/jovancherian-source/EnDek/releases/latest", "https://github.com/jovancherian-source/EnDek/", "python Encrypter.py")
