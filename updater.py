@@ -208,7 +208,7 @@ def extracter(project_name,GitHub_API):
             return f"could not extract the update zip due to: {e}"
     elif not os.path.exists(Path.joinpath(project_main.parent, f"{project_name}_update_file.zip")):
         return("Update zip file not found. Please download the update first.")
-def installer(GitHub_API,project_name):
+def installer(GitHub_API,project_name, restart_command):
     try:
         request = urllib.request.Request(GitHub_API, headers={"User-Agent": project_name })
         with urllib.request.urlopen(request, timeout=5) as whole_data_json:
@@ -230,14 +230,14 @@ def installer(GitHub_API,project_name):
         return False
     if os.path.exists(Path(project_parent/f"{latest_verison}-Update")):
         subprocess.Popen(
-            [sys.executable, str(installer_path), latest_verison ],
+            [sys.executable, str(installer_path), latest_verison, project_name, restart_command],
             cwd=project_parent, creationflags= subprocess.CREATE_NEW_PROCESS_GROUP
         )
         sys.exit()
     else:
         print("Update file are not available. Please re-run the update.")
 
-def update_now(user_current_version, project_name, GitHub_API, GitHub_download_API):
+def update_now(user_current_version, project_name, GitHub_API, GitHub_download_API, restart_command):
     if update_checker(user_version=user_current_version, GitHub_API=GitHub_API,Project_name= project_name) != "you are up to date!":
         sys.stdout.write("\r[░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0.0%")
         sys.stdout.flush()
@@ -253,8 +253,8 @@ def update_now(user_current_version, project_name, GitHub_API, GitHub_download_A
                     if extracter(project_name=project_name, GitHub_API=GitHub_API) == True:
                         sys.stdout.write("\r[█████████████████████████░░░░░]  85.7%")
                         sys.stdout.flush()
-                        installer(GitHub_API=GitHub_API, project_name=project_name)
-def update_now_overide(project_name, GitHub_API, GitHub_download_API):
+                        installer(GitHub_API=GitHub_API, project_name=project_name, restart_command=restart_command)
+def update_now_overide(project_name, GitHub_API, GitHub_download_API,restart_command):
     sys.stdout.write("\r[░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0.0%")
     sys.stdout.flush()
     if backup(Project_name=project_name) == True :
@@ -269,4 +269,4 @@ def update_now_overide(project_name, GitHub_API, GitHub_download_API):
                 if extracter(project_name=project_name, GitHub_API=GitHub_API) == True:
                     sys.stdout.write("\r[█████████████████████████░░░░░]  85.7%")
                     sys.stdout.flush()
-                    installer(GitHub_API=GitHub_API, project_name=project_name)
+                    installer(GitHub_API=GitHub_API, project_name=project_name, restart_command=restart_command)
