@@ -1,8 +1,11 @@
 from pathlib import Path
 import os
 import shutil
-Project_verison = "0.0.0"
-Project_name = ""
+def info():
+    Project_verison = "0.0.0"
+    Project_name = ""
+    # Example: EnDek
+    return Project_name, Project_verison
 def after_update_cleanup(Project_name):
     try:
         updater_path =  Path(__file__).resolve()
@@ -26,6 +29,7 @@ def after_update_cleanup(Project_name):
     except Exception as e:
         return f"could not clean up due to {e}."
 def startup_check(Project_name):
+    data = info()
     try:
         updater_path =  Path(__file__).resolve()
         updater_folder = updater_path.parent
@@ -34,7 +38,7 @@ def startup_check(Project_name):
         print("Insufficient permissions in main folder to install updates")
         return False
     if os.path.exists(Project_main.parent/f"{Project_name}_update"):
-        after_update_cleanup()
+        after_update_cleanup(data[0])
         print(f"""You {Project_name} has been updated to the latest version {Project_verison}.
 And backups have been cleared.""")
         return  True
