@@ -4,6 +4,7 @@ import shutil
 restart_commannd = ""
 Project_name = ""
 Project_verison = "0.0.0"
+
 current_path = Path(__file__).resolve()
 Project_path = current_path.parent
 Project_parent_path = Project_path.parent

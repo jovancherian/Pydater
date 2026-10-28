@@ -10,12 +10,17 @@ import subprocess
 import sys
 
 
-GitHub_Release_API = ""
-# Example: https://api.github.com/repos/jovancherian-source/EnDek/releases/latest
-Project_name = ""
-# Example: EnDek
-GitHub_download_API = ""
-# Example: https://github.com/jovancherian-source/EnDek/
+def info():
+    Current_version = "0.0.0"
+    Project_name = ""
+    # Example: EnDek
+    Github_Release_API = ""
+    # Example: https://api.github.com/repos/jovancherian/EnDek/releases/latest
+    Github_Https = ""
+    # Example: https://github.com/jovancherian/EnDek/
+    Reset_command = ""
+    # Example: python Encrypter.py
+    return Current_version, Project_name, Github_Release_API, Github_Https, Reset_command
 
 def update_checker(user_version, GitHub_API, Project_name):
     integer_user_version = user_version.split('.')
@@ -237,36 +242,42 @@ def installer(GitHub_API,project_name, restart_command):
     else:
         print("Update file are not available. Please re-run the update.")
 
-def update_now(user_current_version, project_name, GitHub_API, GitHub_download_API, restart_command):
-    if update_checker(user_version=user_current_version, GitHub_API=GitHub_API,Project_name= project_name) != "you are up to date!":
+def update_now():
+    data = info()
+    if update_checker(user_version=data[0], GitHub_API=data[2],Project_name=data[1]) != "you are up to date!":
         sys.stdout.write("\r[░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0.0%")
         sys.stdout.flush()
-        if backup(Project_name=project_name) == True :
+        if backup(Project_name=data[1]) == True :
             sys.stdout.write( "\r[████░░░░░░░░░░░░░░░░░░░░░░░░░░]  14.3%")
             sys.stdout.flush()
-            if download_update(Project_name=project_name, GitHub_API=GitHub_API, GitHub_download_API=GitHub_download_API) == True:
+            if download_update(Project_name=data[1], GitHub_API=data[2], GitHub_download_API=data[3]) == True:
                 sys.stdout.write("\r[██████████░░░░░░░░░░░░░░░░░░░░]  35.7%")
                 sys.stdout.flush()
-                if sha_checker(GitHub_API=GitHub_API, project_name=project_name) == True:
+                if sha_checker(GitHub_API=data[2], project_name=data[1]) == True:
                     sys.stdout.write("\r[███████████████████░░░░░░░░░░░]  64.3%")
                     sys.stdout.flush()
-                    if extracter(project_name=project_name, GitHub_API=GitHub_API) == True:
+                    if extracter(project_name=data[1], GitHub_API=data[2]) == True:
                         sys.stdout.write("\r[█████████████████████████░░░░░]  85.7%")
                         sys.stdout.flush()
-                        installer(GitHub_API=GitHub_API, project_name=project_name, restart_command=restart_command)
-def update_now_overide(project_name, GitHub_API, GitHub_download_API,restart_command):
+                        installer(GitHub_API=data[2], project_name=data[1], restart_command=data[4])
+def update_now_overide():
+    data = info()
     sys.stdout.write("\r[░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0.0%")
     sys.stdout.flush()
-    if backup(Project_name=project_name) == True :
+    if backup(Project_name=data[1]) == True :
         sys.stdout.write( "\r[████░░░░░░░░░░░░░░░░░░░░░░░░░░]  14.3%")
         sys.stdout.flush()
-        if download_update(Project_name=project_name, GitHub_API=GitHub_API, GitHub_download_API=GitHub_download_API) == True:
+        if download_update(Project_name=data[1], GitHub_API=data[2], GitHub_download_API=data[3]) == True:
             sys.stdout.write("\r[██████████░░░░░░░░░░░░░░░░░░░░]  35.7%")
             sys.stdout.flush()
-            if sha_checker(GitHub_API=GitHub_API, project_name=project_name) == True:
+            if sha_checker(GitHub_API=data[2], project_name=data[1]) == True:
                 sys.stdout.write("\r[███████████████████░░░░░░░░░░░]  64.3%")
                 sys.stdout.flush()
-                if extracter(project_name=project_name, GitHub_API=GitHub_API) == True:
+                if extracter(project_name=data[1], GitHub_API=data[2]) == True:
                     sys.stdout.write("\r[█████████████████████████░░░░░]  85.7%")
                     sys.stdout.flush()
-                    installer(GitHub_API=GitHub_API, project_name=project_name, restart_command=restart_command)
+                    installer(GitHub_API=data[2], project_name=data[1], restart_command=data[4])
+
+
+data = info()
+print(data[0])
