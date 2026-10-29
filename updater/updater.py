@@ -242,7 +242,7 @@ def installer(GitHub_API,project_name, restart_command):
     else:
         print("Update file are not available. Please re-run the update.")
 
-def update_now():
+def update():
     data = info()
     if update_checker(user_version=data[0], GitHub_API=data[2],Project_name=data[1]) != "you are up to date!":
         sys.stdout.write("\r[░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0.0%")
@@ -260,7 +260,7 @@ def update_now():
                         sys.stdout.write("\r[█████████████████████████░░░░░]  85.7%")
                         sys.stdout.flush()
                         installer(GitHub_API=data[2], project_name=data[1], restart_command=data[4])
-def update_now_overide():
+def force_update():
     data = info()
     sys.stdout.write("\r[░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0.0%")
     sys.stdout.flush()

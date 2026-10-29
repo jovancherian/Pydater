@@ -41,6 +41,14 @@ def startup_check():
         after_update_cleanup(data[0])
         print(f"""You {data[0]} has been updated to the latest version {data[1]}.
 And backups have been cleared.""")
+    elif os.path.exists(Path(os.path.join(Project_main.parent, f"{data[0]}_update_file.zip"))):
+        after_update_cleanup(data[0])
+        print(f"""You {data[0]} has been updated to the latest version {data[1]}.
+And backups have been cleared.""")
+    elif os.path.exists(Path(os.path.join(Project_main.parent,f".{data[0]}_backup_for_update"))):
+        after_update_cleanup(data[0])
+        print(f"""You {data[0]} has been updated to the latest version {data[1]}.
+And backups have been cleared.""")
         return  True
     else:
         return  False
