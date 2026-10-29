@@ -278,6 +278,3 @@ def update_now_overide():
                     sys.stdout.flush()
                     installer(GitHub_API=data[2], project_name=data[1], restart_command=data[4])
 
-
-data = info()
-print(data[0])

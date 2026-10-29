@@ -28,7 +28,7 @@ def after_update_cleanup(Project_name):
         return "cleaned up"
     except Exception as e:
         return f"could not clean up due to {e}."
-def startup_check(Project_name):
+def startup_check():
     data = info()
     try:
         updater_path =  Path(__file__).resolve()
@@ -37,9 +37,9 @@ def startup_check(Project_name):
     except PermissionError:
         print("Insufficient permissions in main folder to install updates")
         return False
-    if os.path.exists(Project_main.parent/f"{Project_name}_update"):
+    if os.path.exists(Project_main.parent/f"{data[0]}_update"):
         after_update_cleanup(data[0])
-        print(f"""You {Project_name} has been updated to the latest version {Project_verison}.
+        print(f"""You {data[0]} has been updated to the latest version {data[1]}.
 And backups have been cleared.""")
         return  True
     else:
